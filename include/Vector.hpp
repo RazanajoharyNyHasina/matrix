@@ -14,6 +14,11 @@ private:
 public:
 	Vector(std::initializer_list<K> values) : data(values) {}
 
+	Vector(const Vector<K> &other)
+	{
+		operator=(other);
+	}
+
 	Vector<K> &operator=(const Vector &other)
 	{
 		if (this != &other)
@@ -36,10 +41,51 @@ public:
 		return data[index];
 	}
 
-	Vector<K> &operator+(const Vector<K> &to_add)
+	Vector<K> operator+(const Vector<K> &to_add) const
+	{
+		Vector<K> result = *this;
+
+		for (size_t i = 0; i < to_add.size(); i++)
+			result[i] += to_add[i];
+		return (result);
+	}
+
+	Vector<K> operator-(const Vector<K> &to_subtract) const
+	{
+		Vector<K> result = *this;
+
+		for (size_t i = 0; i < to_subtract.size(); i++)
+			result[i] -= to_subtract[i];
+		return (result);
+	}
+
+	Vector<K> operator*(const K &scale) const
+	{
+		Vector<K> result = *this;
+
+		for (size_t i = 0; i < size(); i++)
+			result[i] *= scale;
+		return (result);
+	}
+
+	Vector<K> &operator+=(const Vector<K> &to_add)
 	{
 		for (size_t i = 0; i < to_add.size(); i++)
 			data[i] += to_add[i];
+		return (*this);
+	}
+
+	Vector<K> &operator-=(const Vector<K> &to_subtract)
+	{
+		for (size_t i = 0; i < to_subtract.size(); i++)
+			data[i] -= to_subtract[i];
+		return (*this);
+	}
+
+	Vector<K> &operator*=(const K &scale)
+	{
+		for (size_t i = 0; i < size(); i++)
+			data[i] *= scale;
 		return (*this);
 	}
 

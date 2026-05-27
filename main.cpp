@@ -11,5 +11,20 @@ int main(void)
 	std::cout << v << std::endl;
 	std::cout << m << std::endl;
 
-	std::cout << "Vector Addition: " << v + t << std::endl;
+	std::cout << "+: " << v + t << std::endl;
+
+	Vector<float> subtracted = v - t;
+
+	std::cout << "-: " << subtracted << std::endl;
+
+	subtracted += Vector<float>({10.0, 20.0});
+	std::cout << "+=: " << subtracted << std::endl;
+
+	subtracted -= Vector<float>({5.0, 7.0});
+	std::cout << "*: " << v * 2.0 << std::endl;
+
+	std::cout << "-=: " << subtracted << std::endl;
+
+	subtracted *= 5;
+	std::cout << "*=: " << subtracted << std::endl;
 }
