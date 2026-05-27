@@ -48,8 +48,8 @@ std::ostream &operator<<(std::ostream &stream, const Vector<K> &vector)
 	stream << "Vector: {";
 
 	for (typename std::vector<K>::const_iterator i = vector.data.begin();
-		i != vector.data.end();
-		++i)
+	     i != vector.data.end();
+	     ++i)
 	{
 		stream << *i;
 
