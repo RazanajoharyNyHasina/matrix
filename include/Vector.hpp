@@ -36,6 +36,13 @@ public:
 		return data[index];
 	}
 
+	Vector<K> &operator+(const Vector<K> &to_add)
+	{
+		for (size_t i = 0; i < to_add.size(); i++)
+			data[i] += to_add[i];
+		return (*this);
+	}
+
 	template <typename T>
 	friend std::ostream &operator<<(std::ostream &stream, const Vector<T> &vector);
 
