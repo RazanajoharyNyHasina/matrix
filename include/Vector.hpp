@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <iostream>
 #include <math.h>
+#include <algorithm>
 
 template <typename K>
 class Vector
@@ -95,6 +96,26 @@ public:
 		return (*this);
 	}
 
+	typename std::vector<K>::iterator begin(void)
+	{
+		return (data.begin());
+	}
+
+	typename std::vector<K>::iterator end(void)
+	{
+		return (data.end());
+	}
+
+	typename std::vector<K>::const_iterator begin(void) const
+	{
+		return (data.cbegin());
+	}
+
+	typename std::vector<K>::const_iterator end(void) const
+	{
+		return (data.cend());
+	}
+
 	template <typename T>
 	friend std::ostream &operator<<(std::ostream &stream, const Vector<T> &vector);
 
@@ -170,6 +191,39 @@ K dot(const Vector<K> &a, const Vector<K> &b)
 		accumulation = std::fma(a[i], b[i], accumulation);
 
 	return (accumulation);
+}
+
+template <typename K>
+K norm_1(const Vector<K> &v)
+{
+	K tmp{};
+
+	for (const K &value : v)
+		tmp += (value < 0) ? -value : value;
+
+	return (tmp);
+}
+
+template <typename K>
+K norm(const Vector<K> &v)
+{
+	K tmp{};
+
+	for (const K &value : v)
+		tmp = std::fma(value, value, tmp);
+
+	return (std::sqrt(tmp));
+}
+
+template <typename K>
+K norm_inf(const Vector<K> &v)
+{
+	K tmp{};
+
+	for (const K &value : v)
+		tmp = std::max((value < 0) ? -value : value, tmp);
+
+	return (tmp);
 }
 
 #endif
