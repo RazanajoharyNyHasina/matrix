@@ -160,4 +160,16 @@ K linear_interpolation(const K &a, const K &b, const float t)
 	return (std::fma(b - a, t, a));
 }
 
+template <typename K>
+K dot(const Vector<K> &a, const Vector<K> &b)
+{
+	const size_t dimension = a.size();
+	K accumulation = 0.0;
+
+	for (size_t i = 0; i < dimension; i++)
+		accumulation = std::fma(a[i], b[i], accumulation);
+
+	return (accumulation);
+}
+
 #endif
