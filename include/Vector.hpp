@@ -260,4 +260,18 @@ float angle_cos(const Vector<K> &a, const Vector<K> &b)
 	return (dot / (fast_sqrt(norm_a) * fast_sqrt(norm_b)));
 }
 
+template <typename K>
+Vector<K> cross_product(const Vector<K> &a, const Vector<K> &b)
+{
+	if (a.size() != 3 or b.size() != 3)
+		return ((Vector<K>){0.0, 0.0, 0.0});
+
+	Vector<K> result(3);
+
+	result[0] = (a[1] * b[2]) - (a[2] * b[1]);
+	result[1] = (a[2] * b[0]) - (a[0] * b[2]);
+	result[2] = (a[0] * b[1]) - (a[1] * b[0]);
+	return (result);
+}
+
 #endif
