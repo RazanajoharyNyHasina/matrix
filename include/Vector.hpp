@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstddef>
 #include <iostream>
+#include <math.h>
 
 template <typename K>
 class Vector
@@ -17,6 +18,11 @@ public:
 	Vector(const Vector<K> &other)
 	{
 		operator=(other);
+	}
+
+	Vector(const size_t &size)
+	{
+		data.resize(size);
 	}
 
 	Vector<K> &operator=(const Vector &other)
@@ -113,6 +119,26 @@ std::ostream &operator<<(std::ostream &stream, const Vector<K> &vector)
 	stream << "}";
 
 	return stream;
+}
+
+template <typename K>
+Vector<K> linear_combination(const std::initializer_list<Vector<K>> u, const K *coefs)
+{
+	const size_t dim = u.begin()->size();
+	Vector<K> result(dim);
+
+	size_t vec_i = 0;
+
+	for (const Vector<K> &current_vector : u)
+	{
+		for (size_t j = 0; j < dim; j++)
+		{
+			result[j] = std::fma(current_vector[j], coefs[vec_i], result[j]);
+		}
+		vec_i++;
+	}
+
+	return result;
 }
 
 #endif
