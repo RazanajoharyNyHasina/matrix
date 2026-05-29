@@ -124,14 +124,14 @@ std::ostream &operator<<(std::ostream &stream, const Vector<K> &vector)
 template <typename K>
 Vector<K> linear_combination(const std::initializer_list<Vector<K>> u, const K *coefs)
 {
-	const size_t dim = u.begin()->size();
-	Vector<K> result(dim);
+	const size_t dimension = u.begin()->size();
+	Vector<K> result(dimension);
 
 	size_t vec_i = 0;
 
 	for (const Vector<K> &current_vector : u)
 	{
-		for (size_t j = 0; j < dim; j++)
+		for (size_t j = 0; j < dimension; j++)
 		{
 			result[j] = std::fma(current_vector[j], coefs[vec_i], result[j]);
 		}
@@ -139,6 +139,25 @@ Vector<K> linear_combination(const std::initializer_list<Vector<K>> u, const K *
 	}
 
 	return result;
+}
+
+template <typename K>
+Vector<K> linear_interpolation(const Vector<K> &a, const Vector<K> &b, const float t)
+{
+	const size_t dimension = a.size();
+	Vector<K> result(dimension);
+
+	for (size_t i = 0; i < dimension; i++)
+	{
+		result[i] = std::fma(b[i] - a[i], t, a[i]);
+	}
+	return (result);
+}
+
+template <typename K>
+K linear_interpolation(const K &a, const K &b, const float t)
+{
+	return (std::fma(b - a, t, a));
 }
 
 #endif
