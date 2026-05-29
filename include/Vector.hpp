@@ -122,6 +122,21 @@ public:
 	~Vector(void) {};
 };
 
+float fast_sqrt(float number)
+{
+	int i;
+	float x, y;
+	x = number * 0.5;
+	y = number;
+	i = *(int *)&y;
+	i = 0x5f3759df - (i >> 1);
+	y = *(float *)&i;
+	y = y * (1.5 - (x * y * y));
+	y = y * (1.5 - (x * y * y));
+
+	return number * y;
+}
+
 template <typename K>
 std::ostream &operator<<(std::ostream &stream, const Vector<K> &vector)
 {
@@ -185,7 +200,7 @@ template <typename K>
 K dot(const Vector<K> &a, const Vector<K> &b)
 {
 	const size_t dimension = a.size();
-	K accumulation = 0.0;
+	K accumulation{};
 
 	for (size_t i = 0; i < dimension; i++)
 		accumulation = std::fma(a[i], b[i], accumulation);
@@ -212,7 +227,7 @@ float norm(const Vector<K> &v)
 	for (const K &value : v)
 		tmp = std::fma(value, value, tmp);
 
-	return (std::sqrt(tmp));
+	return (fast_sqrt(tmp));
 }
 
 template <typename K>
@@ -224,6 +239,25 @@ float norm_inf(const Vector<K> &v)
 		tmp = std::max((value < 0) ? -value : value, tmp);
 
 	return (tmp);
+}
+
+template <typename K>
+float angle_cos(const Vector<K> &a, const Vector<K> &b)
+{
+	float dot = 0.0;
+	float norm_a = 0.0;
+	float norm_b = 0.0;
+
+	for (size_t i = 0; i < a.size(); i++)
+	{
+		dot = std::fma(a[i], b[i], dot);
+		norm_a = std::fma(a[i], a[i], norm_a);
+		norm_b = std::fma(b[i], b[i], norm_b);
+	}
+
+	if (norm_a < 1e-8f or norm_b < 1e-8f)
+		return (0);
+	return (dot / (fast_sqrt(norm_a) * fast_sqrt(norm_b)));
 }
 
 #endif
