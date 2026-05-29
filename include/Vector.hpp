@@ -194,9 +194,9 @@ K dot(const Vector<K> &a, const Vector<K> &b)
 }
 
 template <typename K>
-K norm_1(const Vector<K> &v)
+float norm_1(const Vector<K> &v)
 {
-	K tmp{};
+	float tmp = 0.0;
 
 	for (const K &value : v)
 		tmp += (value < 0) ? -value : value;
@@ -205,9 +205,9 @@ K norm_1(const Vector<K> &v)
 }
 
 template <typename K>
-K norm(const Vector<K> &v)
+float norm(const Vector<K> &v)
 {
-	K tmp{};
+	float tmp = 0.0;
 
 	for (const K &value : v)
 		tmp = std::fma(value, value, tmp);
@@ -216,9 +216,9 @@ K norm(const Vector<K> &v)
 }
 
 template <typename K>
-K norm_inf(const Vector<K> &v)
+float norm_inf(const Vector<K> &v)
 {
-	K tmp{};
+	float tmp = 0.0;
 
 	for (const K &value : v)
 		tmp = std::max((value < 0) ? -value : value, tmp);
